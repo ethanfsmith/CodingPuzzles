@@ -169,9 +169,9 @@ def getUniformIntegerCountInInterval(A: int, B: int) -> int:
 
   return count
 
-
 #--------------------------------------Level 2------------------------------------------------
-#Director of Photography
+
+#Director of Photography--------------------------------------------------------------------------
 import bisect
 
 def getArtisticPhotographCount2(N: int, C: str, X: int, Y: int) -> int:
@@ -206,6 +206,22 @@ def getArtisticPhotographCount2(N: int, C: str, X: int, Y: int) -> int:
         artistic += (pUpper - pLower) * (bUpper - bLower)
 
     return artistic
+
+#Hops--------------------------------------------------------------------------
+from typing import List
+# Write any import statements here
+
+def getSecondsRequired(N: int, F: int, P: List[int]) -> int:
+  lily = 0
+
+  P.sort()
+
+  # Count open lily pads between N and furthest frog
+  lily += N - P[-1] - 1
+  for i in range(len(P) - 1, 0, -1):
+      lily += P[i] - P[i - 1] - 1
+
+  return lily + F
 
 
 
@@ -368,4 +384,18 @@ C=".PBAAP.B"
 X=1
 Y=3
 print(getArtisticPhotographCount(N,C,X,Y))
+print()
+
+#Hops
+print("Hops")
+
+N = 3
+F = 1
+P = [1]
+print(getSecondsREquired(N,F,P))
+
+N = 6
+F = 3
+P = [5, 2, 4]
+print(getSecondsREquired(N,F,P))
 print()
