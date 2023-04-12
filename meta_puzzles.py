@@ -363,6 +363,7 @@ print(getUniformIntegerCountInInterval(A,B))
 A = 99999999999
 B = 99999999999
 print(getUniformIntegerCountInInterval(A,B))
+print()
 
 #Director of Photography 2
 print("Director of Photography 2")
