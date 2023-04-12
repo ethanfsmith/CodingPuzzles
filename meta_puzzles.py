@@ -1,5 +1,5 @@
 #---------------------------------------SOLUTIONS------------------------------------------------
-#--------------------------------------Warm UP
+#--------------------------------------Warm UP---------------------------------------------------
 #ABC's
 def getSum(A: int, B: int, C: int) -> int:
   # Write your code here
@@ -32,9 +32,9 @@ def getHitProbability(R: int, C: int, G: List[List[int]]) -> float:
       
   return ships /(R*C)
 
-#--------------------------------------Level 1
+#--------------------------------------Level 1------------------------------------------------
 
-#Cafeteria
+#Cafeteria-------------------------------------------------------------------
 from typing import List
 # Write any import statements here
 
@@ -62,7 +62,7 @@ def getMaxAdditionalDinersCount(N: int, K: int, M: int, S: List[int]) -> int:
 
   return diners
 
-#Director of Photography
+#Director of Photography----------------------------------------------------------------
 import bisect
 
 def getArtisticPhotographCount(N: int, C: str, X: int, Y: int) -> int:
@@ -98,6 +98,7 @@ def getArtisticPhotographCount(N: int, C: str, X: int, Y: int) -> int:
 
     return artistic
 
+#Kaitenzushi------------------------------------------------------------
 from typing import List
 # Write any import statements here
 from collections import deque
@@ -119,6 +120,7 @@ def getMaximumEatenDishCount(N: int, D: List[int], K: int) -> int:
 
   return eaten
 
+#Rotary Lock------------------------------------------------------------------
 from typing import List
 # Write any import statements here
 
@@ -133,7 +135,62 @@ def getMinCodeEntryTime(N: int, M: int, C: List[int]) -> int:
       current = num
 
   return time
-#--------------------------------------Level 2
+
+#Scoreboard Inference-----------------------------------------------------------------
+from typing import List
+# Write any import statements here
+
+def getMinProblemCount(N: int, S: List[int]) -> int:
+  even = 0
+  odd = 0
+  S.sort()
+
+  # Find min even and odd in the list
+  for score in S:
+      odd = max(odd, score % 2)
+      if score > even:
+          even = score // 2
+
+  return even + odd
+
+#Stack Stabilization---------------------------------------------------------------------
+from typing import List
+# Write any import statements here
+
+def getMinimumDeflatedDiscCount(N: int, R: List[int]) -> int:
+
+  deflate = 0
+
+  for disc in range(N - 2, -1, -1):  # Search stack from top to bottom
+      if R[disc] >= R[disc + 1]:
+          R[disc] = R[disc + 1] - 1  # Deflate disc to appropriate size
+          deflate += 1
+      if R[disc] <= 0:  # Impossible if 0 or less
+          return -1
+
+  return deflate
+
+#Uniform Integers--------------------------------------------------------------------------
+def getUniformIntegerCountInInterval(A: int, B: int) -> int:
+  count = 0
+
+  # Convert A and B to strings to get the length of the largest number
+  max_length = max(len(str(A)), len(str(B)))
+
+  # Iterate from 1 to the maximum length
+  for length in range(1, max_length + 1):
+      # Iterate through all possible digits from 0 to 9
+      for digit in range(10):
+          # Generate the uniform number with the current digit repeated for the current length
+          uniform = int(str(digit) * length)
+          # Check if the uniform number is within the range [A, B]
+          if uniform >= A and uniform <= B:
+              count += 1
+
+  return count
+
+
+#--------------------------------------Level 2------------------------------------------------
 
 
 
@@ -230,3 +287,50 @@ M=  4
 C = [9, 4, 4, 8]
 print(getMinCodeEntryTime(N,M,C))
 print()
+
+#Scoreboard Inference
+print("Scoreboard Inference")
+
+N =6
+S = [1, 2, 3, 4, 5, 6]
+print(getMinProblemCount(N,S))
+
+N =4
+S = [4,3,3,4]
+print(getMinProblemCount(N,S))
+
+N = 4
+S = [2, 4, 6, 8]
+print(getMinProblemCount(N,S))
+print()
+
+#Stack Stabilization
+print("Stack Stabilization")
+
+N = 5
+R = [2, 5, 3, 6, 5]
+print(getMinimumDeflatedDiscCount(N,R))
+
+N = 3
+R = [100, 100, 100]
+print(getMinimumDeflatedDiscCount(N,R))
+
+N = 4
+R = [6, 5, 4, 3]
+print(getMinimumDeflatedDiscCount(N,R))
+print()
+
+#Uniform Integers
+print("Uniform Integers")
+
+A = 75
+B = 300
+print(getUniformIntegerCountInInterval(A,B))
+
+A = 1
+B = 9
+print(getUniformIntegerCountInInterval(A,B))
+
+A = 99999999999
+B = 99999999999
+print(getUniformIntegerCountInInterval(A,B))
