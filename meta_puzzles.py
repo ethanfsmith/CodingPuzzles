@@ -392,10 +392,10 @@ print("Hops")
 N = 3
 F = 1
 P = [1]
-print(getSecondsREquired(N,F,P))
+print(getSecondsRequired(N,F,P))
 
 N = 6
 F = 3
 P = [5, 2, 4]
-print(getSecondsREquired(N,F,P))
+print(getSecondsRequired(N,F,P))
 print()
