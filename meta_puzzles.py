@@ -63,40 +63,20 @@ def getMaxAdditionalDinersCount(N: int, K: int, M: int, S: List[int]) -> int:
   return diners
 
 #Director of Photography----------------------------------------------------------------
-import bisect
-
 def getArtisticPhotographCount(N: int, C: str, X: int, Y: int) -> int:
-    artistic = 0
-    Pi, Ai, Bi = [], [], [] # Lists to store the indexes for each character
+  artisticPhotographs = 0
 
-    # Find all P, A, B locations
-    for i in range(N):
-        if C[i] == 'P':
-            Pi.append(i)
-        elif C[i] == 'A':
-            Ai.append(i)
-        elif C[i] == 'B':
-            Bi.append(i)
+  # Only search for artistic photographs
+  for i in range(N - (2 * X)):
+      if C[i] == 'P' or C[i] == 'B':
+          for j in range(i + X, min(i + (Y + 1), N - X)):
+              if C[j] == 'A':
+                  for k in range(j + X, min(j + (Y + 1), N)):
+                      if (C[k] == 'B' and C[i] == 'P') or (C[k] == 'P' and C[i] == 'B'):
+                          # P or B from A
+                          artisticPhotographs += 1
 
-    # Calculate combinations for each artistic photo
-    # Combinations = count of P * count of B
-    for location in Ai:
-
-        # PAB
-        pLower = bisect.bisect_left(Pi, location - Y)
-        pUpper = bisect.bisect_right(Pi, location - X)
-        bLower = bisect.bisect_left(Bi, location + X)
-        bUpper = bisect.bisect_right(Bi, location + Y)
-        artistic += (pUpper - pLower) * (bUpper - bLower)
-
-        # BAP
-        pLower = bisect.bisect_left(Pi, location + X)
-        pUpper = bisect.bisect_right(Pi, location + Y)
-        bLower = bisect.bisect_left(Bi, location - Y)
-        bUpper = bisect.bisect_right(Bi, location - X)
-        artistic += (pUpper - pLower) * (bUpper - bLower)
-
-    return artistic
+  return artisticPhotographs
 
 #Kaitenzushi------------------------------------------------------------
 from typing import List
@@ -191,8 +171,41 @@ def getUniformIntegerCountInInterval(A: int, B: int) -> int:
 
 
 #--------------------------------------Level 2------------------------------------------------
+#Director of Photography
+import bisect
 
+def getArtisticPhotographCount2(N: int, C: str, X: int, Y: int) -> int:
+    artistic = 0
+    Pi, Ai, Bi = [], [], [] # Lists to store the indexes for each character
 
+    # Find all P, A, B locations
+    for i in range(N):
+        if C[i] == 'P':
+            Pi.append(i)
+        elif C[i] == 'A':
+            Ai.append(i)
+        elif C[i] == 'B':
+            Bi.append(i)
+
+    # Calculate combinations for each artistic photo
+    # Combinations = count of P * count of B
+    for location in Ai:
+
+        # PAB
+        pLower = bisect.bisect_left(Pi, location - Y)
+        pUpper = bisect.bisect_right(Pi, location - X)
+        bLower = bisect.bisect_left(Bi, location + X)
+        bUpper = bisect.bisect_right(Bi, location + Y)
+        artistic += (pUpper - pLower) * (bUpper - bLower)
+
+        # BAP
+        pLower = bisect.bisect_left(Pi, location + X)
+        pUpper = bisect.bisect_right(Pi, location + Y)
+        bLower = bisect.bisect_left(Bi, location - Y)
+        bUpper = bisect.bisect_right(Bi, location - X)
+        artistic += (pUpper - pLower) * (bUpper - bLower)
+
+    return artistic
 
 
 
@@ -334,3 +347,25 @@ print(getUniformIntegerCountInInterval(A,B))
 A = 99999999999
 B = 99999999999
 print(getUniformIntegerCountInInterval(A,B))
+
+#Director of Photography 2
+print("Director of Photography 2")
+
+N=5
+C="APABA"
+X=1
+Y=1
+print(getArtisticPhotographCount(N,C,X,Y))
+
+N=5
+C="APABA"
+X=2
+Y=3
+print(getArtisticPhotographCount(N,C,X,Y))
+
+N=8
+C=".PBAAP.B"
+X=1
+Y=3
+print(getArtisticPhotographCount(N,C,X,Y))
+print()
