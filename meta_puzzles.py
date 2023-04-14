@@ -333,6 +333,36 @@ def getMinProblemCount(N: int, S: List[int]) -> int:
       return p1 + p2 + p3
 
 #Tunnel Time------------------------------------------------------------
+from typing import List
+# Write any import statements here
+
+def getSecondsElapsed(C: int, N: int, A: List[int], B: List[int], K: int) -> int:
+  seconds = 0
+  tunnel_length = 0
+  partial_tunnel = 0
+  A.sort()
+  B.sort()
+
+  # Find total tunnel length
+  for i in range(N):
+      tunnel_length += B[i] - A[i]
+
+  # Tunnels end on a tunnel exit
+  if K % tunnel_length == 0:
+      seconds = B[N - 1]
+      seconds += ((K // tunnel_length) - 1) * C
+  else:
+      # Total complete laps in tunnel length
+      seconds += (K // tunnel_length) * C
+
+      # Remaining distance from tunnel length
+      for i in range(N):
+          if K % tunnel_length <= (partial_tunnel + (B[i] - A[i])):
+              seconds += A[i] + (K % tunnel_length - partial_tunnel)
+              break
+          partial_tunnel += B[i] - A[i]
+
+  return seconds
 
 #---------------------------------------Test Cases------------------------------------------------
 #ABC's
@@ -559,10 +589,22 @@ print(getMinProblemCount(N,S))
 N = 1
 S = [8]
 print(getMinProblemCount(N,S))
-
 print()
 
 #Tunnel Time
 print("Tunnel Time")
 
+C = 10
+N = 2
+A = [1, 6]
+B = [3, 7]
+K = 7
+print(getSecondsElapsed(C,N,A,B,K))
+
+C = 50
+N = 3
+A = [39, 19, 28]
+B = [49, 27, 35]
+K = 15
+print(getSecondsElapsed(C,N,A,B,K))
 print()
