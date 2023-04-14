@@ -271,6 +271,30 @@ def getMaxVisitableWebpages(N: int, L: List[int]) -> int:
   return webpages
 
 #Rotary Lock 2--------------------------------------------------------------------
+from typing import List
+# Write any import statements here
+
+def getMinCodeEntryTime2(N: int, M: int, C: List[int]) -> int:
+  times = [0] * M  # list of times
+  time = float('inf')  # time set to infinity
+
+  for i in range(M):
+      # time to value including starting position
+      times[i] = times[0] + min(abs(1 - C[i]), abs((N - max(1, C[i])) + min(1, C[i])))
+
+      for j in range(i):
+          # compare with previous
+          if j > 0:
+              comp = times[j] + min(abs(C[j - 1] - C[i]), abs((N - max(C[j - 1], C[i])) + min(C[j - 1], C[i])))
+              times[i] = min(times[i], comp)
+
+          # previous time plus recent move
+          times[j] = times[j] + min(abs(C[i - 1] - C[i]), abs((N - max(C[i - 1], C[i])) + min(C[i - 1], C[i])))
+
+  # search for minimum time
+  time = min(times)
+
+  return time
 
 #Scoreboard Inference 2------------------------------------------------------------
 from typing import List
@@ -569,6 +593,15 @@ print()
 #Rotary Lock 2
 print("Rotary Lock 2")
 
+N = 3
+M = 3
+C = [1,2,3]
+print(getMinCodeEntryTime2(N,M,C))
+
+N = 10
+M=  4
+C = [9, 4, 4, 8]
+print(getMinCodeEntryTime2(N,M,C))
 print()
 
 #Scoreboard Inference 2
