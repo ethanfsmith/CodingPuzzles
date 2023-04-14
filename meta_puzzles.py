@@ -273,6 +273,64 @@ def getMaxVisitableWebpages(N: int, L: List[int]) -> int:
 #Rotary Lock 2--------------------------------------------------------------------
 
 #Scoreboard Inference 2------------------------------------------------------------
+from typing import List
+# Write any import statements here
+
+def getMinProblemCount(N: int, S: List[int]) -> int:
+  # Constraints
+  if 1 <= N <= 500000:
+      p1, p2, p3 = 0, 0, 0
+      one_present = 0
+      odd = False
+
+      S.sort()
+
+      # Check if the number 1 is in the set
+      if 1 in S:
+          one_present = 1
+
+      for score in S:
+          # Determine if score set contains an odd number
+          if score % 2 == 1:
+              odd = True
+
+          # Score - sum(problems) gives minimum additional problems
+          p3 += (score - (p1 + p2 * 2 + p3 * 3)) // 3
+
+          # Modulus gives additional min problem p1 or p2
+          if (score - (p1 + p2 * 2 + p3 * 3)) % 3 == 1:
+              p1 += 1
+          elif (score - (p1 + p2 * 2 + p3 * 3)) % 3 == 2:
+              p2 += 1
+
+          # Verify 1's count
+          if odd:
+              if p1 > (one_present + 1):
+                  p1 -= 2
+                  p2 += 1
+          else:
+              if p1 > 3:
+                  p1 -= 3
+                  p3 += 1
+
+          # Verify 2's count
+          if p2 > 4 or (p1 > 0 and p2 > 3 and one_present == 0):
+              p2 -= 3
+              p3 += 2
+
+          # Manage 3's count
+          if one_present == 1:
+              if p1 > 1 and p2 > 1:
+                  p1 -= 1
+                  p2 -= 1
+                  p3 += 1
+          else:
+              if p1 > 0 and p2 > 2:
+                  p1 -= 1
+                  p2 -= 1
+                  p3 += 2
+
+      return p1 + p2 + p3
 
 #Tunnel Time------------------------------------------------------------
 
@@ -485,6 +543,22 @@ print()
 
 #Scoreboard Inference 2
 print("Scoreboard Inference 2")
+
+N = 5
+S = [1, 2, 3, 4, 5]
+print(getMinProblemCount(N,S))
+
+N = 4
+S = [4, 3, 3, 4]
+print(getMinProblemCount(N,S))
+
+N = 4
+S = [2, 4, 6, 8]
+print(getMinProblemCount(N,S))
+
+N = 1
+S = [8]
+print(getMinProblemCount(N,S))
 
 print()
 
