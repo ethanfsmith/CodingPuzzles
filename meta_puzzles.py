@@ -388,6 +388,71 @@ def getSecondsElapsed(C: int, N: int, A: List[int], B: List[int], K: int) -> int
 
   return seconds
 
+#--------------------------------------Level 3------------------------------------------------
+
+#Boss Fight------------------------------------------------------------
+from typing import List
+# Write any import statements here
+
+def get_damage(w1, w2, B):
+  # Function to calculate damage dealt by two warriors to the boss
+  return (w1[0] / B) * w1[1] + (w1[0] / B) * w2[1] + (w2[0] / B) * w2[1]
+
+def getMaxDamageDealt(N: int, H: List[int], D: List[int], B: int) -> float:
+  warrior = []
+  w1 = [H[0], D[0]]
+  w2 = [H[1], D[1]]
+  damage12 = get_damage(w1, w2, B)
+  damage21 = get_damage(w2, w1, B)
+
+  damage = max(damage12, damage21)  # Starting damage
+  if damage21 > damage12:
+      w1, w2 = w2, w1
+
+  # Evaluate each remaining warrior
+  for i in range(2, N):
+      w3 = [H[i], D[i]]  # Assign new health and damage to w3
+
+      # Compare damage for the third warrior to the 1st and 2nd warrior combinations
+      damage13 = get_damage(w1, w3, B)
+      damage32 = get_damage(w3, w2, B)
+      damage31 = get_damage(w3, w1, B)
+      damage23 = get_damage(w2, w3, B)
+
+      # If any condition results in greater damage
+      if max(damage13, max(damage32, max(damage31, damage23))) > damage:
+
+          # Compare each combination for the greatest damage and adjust lineup
+          # w1 w3
+          if damage13 > max(damage32, max(damage31, damage23)):
+              damage = damage13
+              w2 = w3
+          # w3 w2
+          elif damage32 > max(damage13, max(damage31, damage23)):
+              damage = damage32
+              w1 = w3
+          # w3 w1
+          elif damage31 > max(damage13, max(damage32, damage23)):
+              damage = damage31
+              w2, w1 = w1, w3
+          # w2 w3
+          elif damage23 > max(damage13, max(damage32, damage31)):
+              damage = damage23
+              w1, w2 = w2, w3
+          # Equal outcome, w1 == w2
+          else:
+              w1 = w3
+      # Warriors within 1% of max damage
+      elif 1 - max(damage32, max(damage31, damage23)) / damage <= 0.01:
+          warrior.append(w3)
+
+  # Evaluate contenders
+  for W in warrior:
+      damage = max(damage, max(get_damage(W, w2, B), get_damage(w1, W, B)))
+      damage = max(damage, max(get_damage(w2, W, B), get_damage(W, w1, B)))
+
+  return damage
+
 #---------------------------------------Test Cases------------------------------------------------
 #ABC's
 print("ABC's")
@@ -640,4 +705,26 @@ A = [39, 19, 28]
 B = [49, 27, 35]
 K = 15
 print(getSecondsElapsed(C,N,A,B,K))
+print()
+
+#Boss Fight
+print("Boss Fight")
+
+N =  3
+H = [2, 1, 4]
+D = [3, 1, 2]
+B = 4
+print(getMaxDamageDealt(N,H,D,B))
+
+N =  4
+H = [1, 1, 2, 100]
+D = [1, 2, 1, 3]
+B = 8
+print(getMaxDamageDealt(N,H,D,B))
+
+N =  4
+H = [1, 1, 2, 3]
+D = [1, 2, 1, 100]
+B = 8
+print(getMaxDamageDealt(N,H,D,B))
 print()
