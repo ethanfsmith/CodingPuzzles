@@ -171,7 +171,7 @@ def getUniformIntegerCountInInterval(A: int, B: int) -> int:
 
 #--------------------------------------Level 2------------------------------------------------
 
-#Director of Photography--------------------------------------------------------------------------
+#Director of Photography 2--------------------------------------------------------------------------
 import bisect
 
 def getArtisticPhotographCount2(N: int, C: str, X: int, Y: int) -> int:
@@ -223,7 +223,58 @@ def getSecondsRequired(N: int, F: int, P: List[int]) -> int:
 
   return lily + F
 
+#Missing Mail--------------------------------------------------------------------
 
+#Portals-------------------------------------------------------------------------
+
+#Rabbit Hole 1-------------------------------------------------------------------
+from typing import List
+# Write any import statements here
+
+def getMaxVisitableWebpages(N: int, L: List[int]) -> int:
+
+  webpages = 0                       # Start with 0 links visited
+  pageCount = [0] * N                # Track count of links from index
+  visited = set()                    # Track visited pages, utilize set for search
+
+  for i in range(N):
+      # Only evaluate new pages
+      if pageCount[i] == 0:
+          # Link within available pages
+          link = L[i] - 1
+          if link < N:
+              # Enter the page
+              pageCount[i] += 1
+
+              # Evaluate the links
+              while link < N and link not in visited and link != i:
+                  # If the link has been evaluated, add the evaluation to the current count
+                  if pageCount[link] > 0:
+                      pageCount[i] += pageCount[link]
+                      break
+                  else:
+                      pageCount[i] += 1       # Go to the new page
+                      visited.add(link)       # Track visited pages
+                      link = L[link] - 1      # Retrieve the link
+
+          # Track max webpages
+          webpages = max(webpages, pageCount[i])
+
+          # Empty visited set
+          while visited:
+              # Circular reference loop, assign all values in loop to value
+              if link == i:
+                  pageCount[visited.pop()] = pageCount[i]
+              else:
+                  visited.pop()
+
+  return webpages
+
+#Rotary Lock 2--------------------------------------------------------------------
+
+#Scoreboard Inference 2------------------------------------------------------------
+
+#Tunnel Time------------------------------------------------------------
 
 #---------------------------------------Test Cases------------------------------------------------
 #ABC's
@@ -399,4 +450,45 @@ N = 6
 F = 3
 P = [5, 2, 4]
 print(getSecondsRequired(N,F,P))
+print()
+
+#Missing Mail
+print("Mising Mail")
+
+print()
+
+#Portals
+print("Portals")
+
+print()
+
+#Rabbit Hole 1
+print("Rabbit Hole 1")
+
+N = 4
+L =[4, 1, 2, 1]
+print(getMaxVisitableWebpages(N,L))
+
+N = 5
+L =[4, 3, 5, 1, 2]
+print(getMaxVisitableWebpages(N,L))
+
+N = 5
+L =[42, 4, 2, 2, 3]
+print(getMaxVisitableWebpages(N,L))
+print()
+
+#Rotary Lock 2
+print("Rotary Lock 2")
+
+print()
+
+#Scoreboard Inference 2
+print("Scoreboard Inference 2")
+
+print()
+
+#Tunnel Time
+print("Tunnel Time")
+
 print()
