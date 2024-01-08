@@ -1,4 +1,4 @@
-#Python 3 - Solutions to Meta Career coding puzzles
+#Python - Solutions to Meta Career coding puzzles
 
 This file shows my solutions and test cases to the coding puzzles on the 
 Meta career website.
